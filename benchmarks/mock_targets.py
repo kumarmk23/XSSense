@@ -3,9 +3,18 @@ import urllib.parse
 import threading
 
 class MockHandler(BaseHTTPRequestHandler):
+    def do_POST(self):
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length).decode('utf-8')
+        params = urllib.parse.parse_qs(post_data)
+        self._handle_request(params)
+
     def do_GET(self):
         query = urllib.parse.urlparse(self.path).query
         params = urllib.parse.parse_qs(query)
+        self._handle_request(params)
+
+    def _handle_request(self, params):
         q = params.get('q', [''])[0]
         
         self.send_response(200)

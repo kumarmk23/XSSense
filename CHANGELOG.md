@@ -26,7 +26,8 @@ All notable changes to this project will be documented in this file.
 - **STDIN Support**: Pipe a list of URLs via `--stdin` for batch scanning.
 - **Proxy Support**: Route traffic through any HTTP proxy (e.g., Burp Suite) via `--proxy`.
 - **Benchmark Suite**: `benchmarks/benchmark.py` tests all six mock targets (HTML/Attribute/JS
-  × safe/vulnerable). Results saved to `benchmarks/results.json`.
+  × safe/vulnerable). Now includes POST request support in the mock server for full feature testing.
+  Results saved to `benchmarks/results.json`.
 - **GitHub Actions CI**: Linting (`flake8`) and unit tests (`pytest`) run on every push.
 - **13 Unit Tests**: Cover context analysis, reflection detection, payload selection, and
   strict JSON output schema compliance.
