@@ -57,7 +57,7 @@ The authors are not responsible for any misuse or damage caused by this tool.
 
 ```bash
 git clone https://github.com/kumarmk23/XSSense.git
-cd XSSense/contextxss
+cd XSSense
 
 # 1. Create and activate a virtual environment (Recommended)
 python -m venv .venv
@@ -66,7 +66,8 @@ python -m venv .venv
 # On Linux/macOS:
 source .venv/bin/activate
 
-# 2. Install the package
+# 2. Enter the code directory and install
+cd contextxss
 pip install .
 ```
 
