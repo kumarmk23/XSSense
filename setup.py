@@ -4,7 +4,8 @@ setup(
     name="xssense",
     version="1.0.0",
     description="A context-aware reflected XSS assistant for penetration testers",
-    author="XSSense Contributor",
+    author="kumarmk23",
+    url="https://github.com/kumarmk23/XSSense",
     packages=find_packages(),
     include_package_data=True,
     install_requires=[

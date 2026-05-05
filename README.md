@@ -38,7 +38,7 @@ The authors are not responsible for any misuse or damage caused by this tool.
 ## Installation
 
 ```bash
-git clone <repository_url>
+git clone https://github.com/kumarmk23/XSSense.git
 cd XSSense/contextxss
 
 # 1. Create and activate a virtual environment (Recommended)
