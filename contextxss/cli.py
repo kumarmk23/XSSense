@@ -8,6 +8,22 @@ app = typer.Typer(help="XSSense: Context-aware reflected XSS assistant")
 console = Console(stderr=True)
 
 
+BANNER = """
+[bold cyan]
+ ██   ██ ███████ ███████ ███████ ███    ██ ███████ ███████ 
+  ██ ██  ██      ██      ██      ████   ██ ██      ██      
+   ███   ███████ ███████ █████   ██ ██  ██ ███████ █████   
+  ██ ██       ██      ██ ██      ██  ██ ██      ██ ██      
+ ██   ██ ███████ ███████ ███████ ██   ████ ███████ ███████ 
+[/bold cyan]
+[bold white]   v1.0.0 | Context-Aware Reflected XSS Assistant[/bold white]
+"""
+
+
+def print_banner():
+    console.print(BANNER)
+
+
 @app.callback()
 def callback():
     """
@@ -47,6 +63,9 @@ def scan(
     if not urls_to_scan:
         console.print("[bold red]Error: No URLs provided. Use --url or --stdin.[/bold red]")
         raise typer.Exit(code=1)
+
+    if not quiet and not json:
+        print_banner()
 
     try:
         for target in urls_to_scan:
