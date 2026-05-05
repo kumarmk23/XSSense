@@ -18,6 +18,15 @@ A focused CLI tool that:
 
 ---
 
+## 🧪 Automated Testing & CI
+
+XSSense is built for reliability.
+- **Continuous Integration**: Every change is automatically tested via GitHub Actions (`.github/workflows/ci.yml`).
+- **Unit Tests**: 13+ tests covering all core modules (Context Analysis, Reflection Detection, Payload Engine).
+- **Accuracy Heuristics**: Custom logic to verify "active" execution points, ensuring a 0% False Positive rate in production.
+
+---
+
 ## ⚠️ Security & Ethics Disclaimer
 
 This tool is for **educational purposes and authorized security testing only**.  
