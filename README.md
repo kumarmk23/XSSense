@@ -41,22 +41,43 @@ The authors are not responsible for any misuse or damage caused by this tool.
 git clone <repository_url>
 cd XSSense/contextxss
 
-# Option 1: Install via pip (editable, for development)
-pip install -e .
+# 1. Create and activate a virtual environment (Recommended)
+python -m venv .venv
+# On Windows:
+.\.venv\Scripts\Activate.ps1
+# On Linux/macOS:
+source .venv/bin/activate
 
-# Option 2: Install globally via pipx (recommended for end users)
-pipx install .
+# 2. Install the package
+pip install .
 ```
 
-After installation, restart your terminal to ensure the `xssense` command is on your PATH.
+---
+
+## 🛠 Troubleshooting
+
+### "xssense : The term 'xssense' is not recognized"
+If you see this error, it means your terminal doesn't know where the tool is installed.
+
+**The Fix:**
+Ensure your virtual environment is **activated** (see step 1 above). You should see `(.venv)` in your terminal prompt. 
+
+Alternatively, you can always run the tool using the direct module path:
+```powershell
+python -m contextxss.cli scan --url "<url>"
+```
 
 ---
 
 ## Usage Examples
 
+You can run the tool using the `xssense` command (if in PATH) or via `python -m contextxss.cli`.
+
 ```bash
-# Basic deep scan (default — tests all payloads for the detected context)
+# Basic deep scan
 xssense scan --url "https://example.com/search?q=test"
+# OR
+python -m contextxss.cli scan --url "https://example.com/search?q=test"
 
 # Quick scan (tests 5–10 prioritised payloads per context)
 xssense scan --url "https://example.com/search?q=test" --mode quick
