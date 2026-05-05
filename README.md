@@ -1,6 +1,10 @@
 # XSSense v1.0.0
+**The intelligent, context-aware companion for reflected XSS testing.**
 
 A production-grade, context-aware reflected XSS assistant for penetration testers.
+
+## Demo
+![XSSense CLI in action](file:///C:/Users/manoj/.gemini/antigravity/brain/d0858168-dc02-4606-a2d5-73b9f1fbbfa1/xssense_cli_demo_1777970929982.png)
 
 ## 🎯 Core Purpose
 
