@@ -1,0 +1,1 @@
+recursive-include contextxss/data *.json

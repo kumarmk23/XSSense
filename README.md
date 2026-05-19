@@ -66,9 +66,8 @@ python -m venv .venv
 # On Linux/macOS:
 source .venv/bin/activate
 
-# 2. Enter the code directory and install
-cd contextxss
-pip install .
+# 2. Install the package directly from the root directory (XSSense)
+pip install ./contextxss
 ```
 
 ---
