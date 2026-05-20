@@ -11,6 +11,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 def get_session():
     """Create a robust requests session."""
     session = requests.Session()
+    session.trust_env = False
     
     # Standard browser headers to avoid being blocked by simple WAFs/CDNs
     session.headers.update({

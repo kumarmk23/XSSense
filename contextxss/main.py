@@ -53,6 +53,7 @@ def run_scan(
     if status is None:
         if not quiet and not as_json:
             console.print(f"[bold red][-] Failed to connect to the target: {url}[/bold red]")
+            console.print(f"[dim red][!] Error details: {response_text}[/dim red]")
         return False
 
     # Step 3: Detect Reflection
