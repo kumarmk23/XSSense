@@ -67,7 +67,7 @@ python -m venv .venv
 source .venv/bin/activate
 
 # 2. Install the package directly from the root directory (XSSense)
-pip install ./contextxss
+pip install .
 ```
 
 ---
