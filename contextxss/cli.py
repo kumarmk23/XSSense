@@ -3,10 +3,47 @@ import sys
 from typing import Optional
 from contextxss.main import run_scan
 from rich.console import Console
+from typer.core import TyperGroup
 
-app = typer.Typer(
+
+class CustomGroup(TyperGroup):
+    def format_usage(self, ctx, formatter):
+        formatter.write_usage(ctx.command_path, "[OPTIONS]")
+
+    def format_help(self, ctx, formatter):
+        # Temporarily hide epilog from Typer's default formatter
+        epilog = self.epilog
+        self.epilog = None
+
+        # Run default formatter
+        super().format_help(ctx, formatter)
+
+        # Restore epilog
+        self.epilog = epilog
+
+        # Print epilog manually to rich console, preserving exact lines, spacing, and formatting
+        if epilog:
+            from typer.rich_utils import _get_rich_console
+            from rich.padding import Padding
+            from rich.align import Align
+
+            console = _get_rich_console()
+            console.print(Padding(Align(epilog, pad=False), (0, 1, 1, 1)))
+
+
+class CustomTyper(typer.Typer):
+    def __call__(self, *args, **kwargs):
+        # Preprocess sys.argv to support 'scan' subcommand transparently
+        if len(sys.argv) > 1 and sys.argv[1] == "scan":
+            sys.argv.pop(1)
+        return super().__call__(*args, **kwargs)
+
+
+app = CustomTyper(
+    cls=CustomGroup,
     help="XSSense: Context-aware reflected XSS assistant",
     rich_markup_mode="rich",
+    no_args_is_help=True,
 )
 console = Console(stderr=True)
 
@@ -15,8 +52,8 @@ BANNER = """
 [bold cyan]
   ██╗  ██╗███████╗███████╗███████╗███╗   ██╗███████╗███████╗
   ╚██╗██╔╝██╔════╝██╔════╝██╔════╝████╗  ██║██╔════╝██╔════╝
-   ╚███╔╝ ███████╗███████╗█████╗  ██╔██╗ ██║███████╗█████╗  
-   ██╔██╗ ╚════██║╚════██║██╔══╝  ██║╚██╗██║╚════██║██╔══╝  
+   ╚███╔╝ ███████╗███████╗█████╗  ██╔██╗ ██║███████╗█████╗
+   ██╔██╗ ╚════██║╚════██║██╔══╝  ██║╚██╗██║╚════██║██╔══╝
   ██╔╝ ██╗███████║███████║███████╗██║ ╚████║███████║███████╗
   ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═══╝╚══════╝╚══════╝
 [/bold cyan]
@@ -30,15 +67,8 @@ def print_banner():
     console.print(BANNER)
 
 
-@app.callback()
-def callback():
-    """
-    XSSense: Context-aware reflected XSS assistant
-    """
-    pass
-
-
-@app.command(
+@app.callback(
+    invoke_without_command=True,
     epilog="""
 [bold cyan]------------------  SCAN MODES  ------------------[/bold cyan]
 
@@ -70,7 +100,7 @@ def callback():
   [bold green]default[/bold green]     Rich formatted tables printed to the terminal.
 
   [bold green]--json[/bold green]      Machine-readable JSON printed to stdout.
-              Pipe to a file:  xssense scan --url <URL> --json > out.json
+              Pipe to a file:  xssense --url <URL> --json > out.json
 
   [bold green]--quiet[/bold green]     Suppresses all output except confirmed XSS findings.
               Ideal for silent scripting and CI pipelines.
@@ -78,25 +108,25 @@ def callback():
 [bold cyan]-----------------  EXAMPLES  -----------------[/bold cyan]
 
   # Quick scan
-  xssense scan --url "https://example.com/search?q=test" --mode quick
+  xssense --url "https://example.com/search?q=test" --mode quick
 
   # Deep scan with verbose output
-  xssense scan --url "https://example.com/search?q=test" --mode deep --verbose
+  xssense --url "https://example.com/search?q=test" --mode deep --verbose
 
   # POST request scan
-  xssense scan --url "https://example.com/submit" --method POST --data "input=test"
+  xssense --url "https://example.com/submit" --method POST --data "input=test"
 
   # JSON output piped to file
-  xssense scan --url "https://example.com/search?q=test" --json > results.json
+  xssense --url "https://example.com/search?q=test" --json > results.json
 
   # Scan multiple URLs from a file
-  cat urls.txt | xssense scan --stdin
+  cat urls.txt | xssense --stdin
 
   # Route through Burp Suite proxy
-  xssense scan --url "https://example.com/search?q=test" --proxy http://127.0.0.1:8080
+  xssense --url "https://example.com/search?q=test" --proxy http://127.0.0.1:8080
 """
 )
-def scan(
+def main(
     url: Optional[str] = typer.Option(None, "--url", "-u", help="Target URL with at least one query parameter to test"),
     stdin: bool = typer.Option(False, "--stdin", help="Read target URLs line-by-line from STDIN"),
     method: str = typer.Option("GET", "--method", "-m", help="HTTP method to use: GET (default) or POST"),
@@ -106,12 +136,16 @@ def scan(
         "--mode",
         help=(
             "Payload scan mode:\n\n"
-            "  quick — high-confidence payloads only (~10 per context), fast triage\n\n"
-            "  deep  — full payload library (up to 38 per context), thorough audit [default]"
+            "  quick - high-confidence payloads only (~10 per context), fast triage\n\n"
+            "  deep  - full payload library (up to 38 per context), thorough audit [default]"
         ),
     ),
-    proxy: Optional[str] = typer.Option(None, "--proxy", help="HTTP/S proxy URL (e.g. http://127.0.0.1:8080 for Burp Suite)"),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Print payload count, context details, and per-request info"),
+    proxy: Optional[str] = typer.Option(
+        None, "--proxy", help="HTTP/S proxy URL (e.g. http://127.0.0.1:8080 for Burp Suite)"
+    ),
+    verbose: bool = typer.Option(
+        False, "--verbose", "-v", help="Print payload count, context details, and per-request info"
+    ),
     quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress all output except confirmed XSS findings"),
     json: bool = typer.Option(False, "--json", help="Output results as machine-readable JSON (to stdout)"),
     timeout: int = typer.Option(10, "--timeout", "-t", help="Per-request HTTP timeout in seconds (default: 10)"),
